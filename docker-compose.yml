@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: mnist-ui
+    command: uvicorn main:app --host 0.0.0.0 --port 5659 --reload  # Auto-reload on code changes
+    volumes:
+      - .:/code  # Mounts the code directory
+    ports:
+      - "5659:5659"  # Application port
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
